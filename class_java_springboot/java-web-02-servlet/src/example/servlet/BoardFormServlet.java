@@ -13,27 +13,30 @@ import example.dao.BoardDao;
 
 public class BoardFormServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -9206316189905969040L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5374675393399980710L;
 	
 	private BoardDao boardDao = new BoardDao();
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 뷰페이지를 지정
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/board/form.jsp");
-		dispatcher.forward(req, resp);
+		// 등록 화면
+		req.getRequestDispatcher("/WEB-INF/jsp/board/form.jsp")
+		.forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 저장기능 로직 구현
+		// 저장기능 로직을 구현
 		String title = req.getParameter("title");
 		String boardType = req.getParameter("boardType");
 		String contents = req.getParameter("contents");
 		String message = null;
-		String nextUrl = "";
 		boolean validate = true;
 		boolean save = false;
+		String nextUrl = "";
 		// 유효성 체크
 		if (isEmpty(title)) {
 			message = "제목을 입력해주세요.";
@@ -54,20 +57,20 @@ public class BoardFormServlet extends HttpServlet {
 			board.setTitle(title);
 			board.setContents(contents);
 			try {
+				// 게시물 등록 처리
 				boardDao.insertBoard(board);
-				save = true;
 				nextUrl = "/board/list";
-				message = "게시물 등록이 완료되었습니다.";
+				message = "게시물 등록이 성공하였습니다.";
+				save = true;
 			} catch (Exception e) {
 				e.printStackTrace();
-				message = "게시물 등록 중 시스템 에러가 발생하였습니다.";
-			}			
+			}
 		}
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/common/message.jsp");
 		req.setAttribute("message", message);
 		req.setAttribute("save", save);
 		req.setAttribute("nextUrl", nextUrl);
-		dispatcher.forward(req, resp);
+		dispatcher.forward(req, resp);		
 	}
 	
 	// 공백체크 함수
@@ -76,6 +79,5 @@ public class BoardFormServlet extends HttpServlet {
 			return true;
 		}
 		return false;
-	}
-	
+	}	
 }

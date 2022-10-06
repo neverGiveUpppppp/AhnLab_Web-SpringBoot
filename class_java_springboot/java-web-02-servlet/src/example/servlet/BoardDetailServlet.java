@@ -1,6 +1,7 @@
 package example.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,22 +14,45 @@ import example.dao.BoardDao;
 
 public class BoardDetailServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -9206316189905969040L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5374675393399980710L;
 	
 	private BoardDao boardDao = new BoardDao();
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
-		
-		
-		
-		// 등록화면
-		
-		
+		String boardSeq = req.getParameter("boardSeq");
+		if (boardSeq == null || boardSeq.length() == 0) {
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/common/message.jsp");
+			req.setAttribute("message", "게시물 번호가 없습니다.");
+			req.setAttribute("save", false);
+			dispatcher.forward(req, resp);			
+			return;
+		}
+		try {
+			Board board = boardDao.selectBoard(Integer.parseInt(boardSeq));
+			// DB에 실제 존재하는지 체크
+			if (board == null) {
+				RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/common/message.jsp");
+				req.setAttribute("message", "게시물이 존재하지 않습니다.");
+				req.setAttribute("save", false);
+				dispatcher.forward(req, resp);			
+				return;		
+			}
+			req.setAttribute("board", board);
+		} catch (NumberFormatException | SQLException e) {
+			e.printStackTrace();
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/common/message.jsp");
+			req.setAttribute("message", "게시물이 존재하지 않습니다.");
+			req.setAttribute("save", false);
+			dispatcher.forward(req, resp);			
+			return;				
+		}
+		// 등록 화면
+		req.getRequestDispatcher("/WEB-INF/jsp/board/detail.jsp")
+		.forward(req, resp);
 	}
-	
-	
 	
 }

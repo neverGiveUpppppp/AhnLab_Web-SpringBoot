@@ -9,13 +9,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   </head>
   <body>
-  	<jsp:include page="/WEB-INF/jsp/common/header.jsp" />
+  	<jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 	<div class="container">
 		<form action="/board/form" method="post">
+			<input type="hidden" name="boardSeq" value=""/>
+			<input type="hidden" name="boardSeq" value=""/>
 			<div class="row mb-3">
 				<label for="title" class="col-sm-2 col-form-label">제목</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" name="title" id="title">
+					<input type="text" class="form-control" 
+						name="title" id="title" value="" />
 				</div>
 			</div>
 			<fieldset class="row mb-3">
@@ -23,12 +26,15 @@
 				<div class="col-sm-10">
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="boardType"
-							id="boardType1" value="NOTICE"> <label
+							id="boardType1" value="NOTICE"  
+							> <label
 							class="form-check-label" for="boardType1">공지사항</label>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="boardType"
-							id="boardType2" value="COMMUNITY"> <label
+							id="boardType2" value="COMMUNITY"
+							
+							> <label
 							class="form-check-label" for="boardType2">커뮤니티</label>
 					</div>
 				</div>

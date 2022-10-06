@@ -27,12 +27,23 @@
 	
 	<servlet>
 		<servlet-name>boardDetail</servlet-name>
-		<servlet-class>example.servlet.BoardDetailServet</servlet-class>
+		<servlet-class>example.servlet.BoardDetailServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>boardDetail</servlet-name>
 		<url-pattern>/board/detail</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>boardDelete</servlet-name>
+		<servlet-class>example.servlet.BoardDeleteServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>boardDelete</servlet-name>
+		<url-pattern>/board/delete</url-pattern>
 	</servlet-mapping>
 	
 	
