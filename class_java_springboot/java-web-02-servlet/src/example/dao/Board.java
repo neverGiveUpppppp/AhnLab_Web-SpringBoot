@@ -5,6 +5,7 @@ public class Board {
 	private int boardSeq;
 	private String boardType;
 	private String title;
+	private String username;
 	private String contents;
 	private String regDate;
 
@@ -46,5 +47,13 @@ public class Board {
 
 	public void setContents(String contents) {
 		this.contents = contents;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

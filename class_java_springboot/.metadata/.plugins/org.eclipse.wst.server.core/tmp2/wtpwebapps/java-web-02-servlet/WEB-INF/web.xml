@@ -46,6 +46,16 @@
 		<url-pattern>/board/delete</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>boardModify</servlet-name>
+		<servlet-class>example.servlet.BoardModifyServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>boardModify</servlet-name>
+		<url-pattern>/board/modify</url-pattern>
+	</servlet-mapping>
+	
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

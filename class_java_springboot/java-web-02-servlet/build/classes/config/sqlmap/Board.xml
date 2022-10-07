@@ -9,6 +9,7 @@
 		<result column="BOARD_SEQ" property="boardSeq" />
 		<result column="BOARD_TYPE" property="boardType" />
 		<result column="TITLE" property="title" />
+		<result column="USER_NAME" property="username" />
 		<result column="REG_DATE" property="regDate" />
 	</resultMap>
 	
@@ -18,19 +19,20 @@
 		<result column="BOARD_TYPE" property="boardType" />
 		<result column="TITLE" property="title" />
 		<result column="CONTENTS" property="contents" />
+		<result column="USER_NAME" property="username" />
 		<result column="REG_DATE" property="regDate" />
 	</resultMap>	
  
 	<!-- 게시물 목록 쿼리 -->
 	<select id="selectBoardList" resultMap="selectBoardListResultMap">
-		SELECT BOARD_SEQ, BOARD_TYPE, TITLE, REG_DATE 
+		SELECT BOARD_SEQ, BOARD_TYPE, TITLE, USER_NAME, REG_DATE 
 		FROM T_BOARD
 		ORDER BY REG_DATE DESC
 	</select>
 	
 	<!-- 게시물 목록 쿼리 -->
 	<select id="selectBoard" parameterClass="int" resultMap="selectBoardResultMap">
-		SELECT BOARD_SEQ, BOARD_TYPE, TITLE, CONTENTS, REG_DATE 
+		SELECT BOARD_SEQ, BOARD_TYPE, TITLE, CONTENTS, USER_NAME, REG_DATE 
 		FROM T_BOARD
 		WHERE BOARD_SEQ = #boardSeq#
 	</select>	
@@ -42,6 +44,7 @@
 			BOARD_TYPE,
 			TITLE,
 			CONTENTS,
+			USER_NAME,
 			REG_DATE		
 		)
 		VALUES
@@ -49,6 +52,7 @@
 			#boardType#,
 			#title#,
 			#contents#,
+			#username#,
 			NOW()	
 		)
 	</insert>

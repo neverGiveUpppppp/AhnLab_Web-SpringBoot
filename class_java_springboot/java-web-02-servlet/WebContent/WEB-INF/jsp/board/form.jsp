@@ -13,12 +13,18 @@
 	<div class="container">
 		<form action="/board/form" method="post">
 			<input type="hidden" name="boardSeq" value=""/>
-			<input type="hidden" name="boardSeq" value=""/>
 			<div class="row mb-3">
 				<label for="title" class="col-sm-2 col-form-label">제목</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" 
 						name="title" id="title" value="" />
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label for="title" class="col-sm-2 col-form-label">회원명</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" 
+						name="username" id="username" value="" />
 				</div>
 			</div>
 			<fieldset class="row mb-3">

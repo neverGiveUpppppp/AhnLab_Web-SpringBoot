@@ -19,3 +19,4 @@
 1665058866562	Rename type 'BoardFormServet'
 1665058874445	Rename type 'BoardDetailServet'
 1665058882695	Rename type 'BoardDeleteServet'
+1665061578300	Encapsulate field 'username'

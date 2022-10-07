@@ -31,6 +31,7 @@ public class BoardFormServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 저장기능 로직을 구현
 		String title = req.getParameter("title");
+		String username =  req.getParameter("username");
 		String boardType = req.getParameter("boardType");
 		String contents = req.getParameter("contents");
 		String message = null;
@@ -40,6 +41,10 @@ public class BoardFormServlet extends HttpServlet {
 		// 유효성 체크
 		if (isEmpty(title)) {
 			message = "제목을 입력해주세요.";
+			validate = false;
+		}
+		if (isEmpty(username)) {
+			message = "회원명을 입력해주세요.";
 			validate = false;
 		}
 		if (validate && isEmpty(boardType)) {
@@ -55,6 +60,7 @@ public class BoardFormServlet extends HttpServlet {
 			Board board = new Board();
 			board.setBoardType(boardType);
 			board.setTitle(title);
+			board.setUsername(username);
 			board.setContents(contents);
 			try {
 				// 게시물 등록 처리
@@ -80,4 +86,6 @@ public class BoardFormServlet extends HttpServlet {
 		}
 		return false;
 	}	
+	
+	
 }

@@ -19,6 +19,7 @@
 			<th>번호</th>
 			<th>종류</th>
 			<th>제목</th>
+			<th>회원명</th>
 			<th>등록일자</th>
 		</tr>
 		</thead>
@@ -32,6 +33,7 @@
 					${board.title}
 				</a>
 			</td>
+			<td>${board.username }</td>
 			<td>${board.regDate}</td>
 		</tr>
 		</c:forEach>
