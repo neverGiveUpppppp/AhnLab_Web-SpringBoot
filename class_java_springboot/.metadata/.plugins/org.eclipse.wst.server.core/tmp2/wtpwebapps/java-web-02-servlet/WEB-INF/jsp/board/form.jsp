@@ -12,7 +12,7 @@
   	<jsp:include page="/WEB-INF/jsp/common/header.jsp"/>
 	<div class="container">
 		<form action="/board/form" method="post">
-			<input type="hidden" name="boardSeq" value=""/>
+			<input type="hidden" name="boardSeq" value="${board.boardSeq }"/>
 			<div class="row mb-3">
 				<label for="title" class="col-sm-2 col-form-label">제목</label>
 				<div class="col-sm-10">
@@ -21,10 +21,10 @@
 				</div>
 			</div>
 			<div class="row mb-3">
-				<label for="title" class="col-sm-2 col-form-label">회원명</label>
+				<label for="username" class="col-sm-2 col-form-label">회원명</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" 
-						name="username" id="username" value="" />
+						name="username" id="username" value="${board.username}" />
 				</div>
 			</div>
 			<fieldset class="row mb-3">
@@ -33,12 +33,15 @@
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="boardType"
 							id="boardType1" value="NOTICE"  
+							${board.boardType == 'NOTICE' ? 'checked="checked"' : ''}
+						
 							> <label
 							class="form-check-label" for="boardType1">공지사항</label>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="boardType"
 							id="boardType2" value="COMMUNITY"
+							${board.boardType == 'COMMUNITY' ? 'checked="checked"' : ''}
 							
 							> <label
 							class="form-check-label" for="boardType2">커뮤니티</label>
@@ -48,7 +51,7 @@
 			<div class="row mb-3">
 				<label for="contents" class="col-sm-2 col-form-label">내용</label>
 				<div class="col-sm-10">
-					<textarea class="form-control" name="contents" id="contents" rows="3"></textarea>
+					<textarea class="form-control" name="contents" id="contents" rows="3">${board.contents}</textarea>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">저장</button>

@@ -14,8 +14,9 @@
 		<div class="card" style="width: 18rem;">
 		  <img src="..." class="card-img-top" alt="...">
 		  <div class="card-body">
-		    <h5 class="card-title">${board.title}</h5>
-		    <p class="card-text">${board.contents}</p>
+		    <h5 class="card-title">제목 : ${board.title}</h5>
+		    <p class="card-text">회원명 : ${board.username}</p>
+		    <p class="card-text">내용 : ${board.contents}</p>
 		    <a href="javascript:;" class="btn btn-primary">${board.regDate}</a>
 		  </div>
 		</div>		

@@ -23,7 +23,7 @@
 		<result column="REG_DATE" property="regDate" />
 	</resultMap>	
  
-	<!-- 게시물 목록 쿼리 -->
+	<!-- 게시물 목록 쿼리 --> <!-- 리스트 조회 쿼리 -->
 	<select id="selectBoardList" resultMap="selectBoardListResultMap">
 		SELECT BOARD_SEQ, BOARD_TYPE, TITLE, USER_NAME, REG_DATE 
 		FROM T_BOARD
@@ -57,10 +57,23 @@
 		)
 	</insert>
 	
+	<!-- 게시물 수정 쿼리 -->
+	<update id="updateBoard" parameterClass="example.dao.Board">
+		UPDATE T_BOARD
+		SET
+			BOARD_TYPE = #boardType#,
+			TITLE = #title#,
+			CONTENTS = #contents#,
+			USER_NAME = #username#
+		WHERE BOARD_SEQ = #boardSeq#
+	</update>
+	
+	
 	<!-- 게시물 삭제 쿼리 -->
 	<delete id="deleteBoard" parameterClass="int">
 		DELETE FROM T_BOARD
 		WHERE BOARD_SEQ = #boardSeq#
 	</delete>
 	
+
 </sqlMap>

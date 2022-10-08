@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+ http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+>
+	<!-- JSP View resolver -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- URL 맵핑 컨트롤러 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/board/list.do">boardListController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 게시판 목록 Controller -->
+	<bean name="boardListController" class="example.controller.BoardListController">
+		<property name="boardService" ref="boardService" />
+	</bean>
+
+</beans>

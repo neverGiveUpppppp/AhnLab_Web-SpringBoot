@@ -16,16 +16,21 @@ public class BoardDao {
 		return (Board) BaseSqlMapConfig.getSqlMapInstance().queryForObject("selectBoard", boardSeq);
 	}
 	
-	
 	public void insertBoard(Board board) throws SQLException {
 		BaseSqlMapConfig.getSqlMapInstance()
 			.insert("insertBoard", board);
 	}
 	
-	
 	public void deleteBoard(int boardSeq) throws SQLException {
 		BaseSqlMapConfig.getSqlMapInstance()
 			.insert("deleteBoard", boardSeq);
 	}
+
+	public void updateBoard(Board board) throws SQLException {
+		BaseSqlMapConfig.getSqlMapInstance()
+		.update("updateBoard", board);
+	}
+
+	
 	
 }

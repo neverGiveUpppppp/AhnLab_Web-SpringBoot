@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+ http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+>
+	<!-- 프로퍼티 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:/config/properties/database.properties"/>
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+
+	<!-- dataSource bean 설정 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" >
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+	
+	<!-- ibatis -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:config/ibatis/sql-map-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>	
+	
+	<!-- 게시판 Service -->
+	<bean name="boardService" class="example.service.BoardService">
+		<property name="boardDao" ref="boardDao" />
+	</bean>
+
+	<!-- 게시판 Dao -->
+	<bean name="boardDao" class="example.dao.BoardDao">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+</beans>

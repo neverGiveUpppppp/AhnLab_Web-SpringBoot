@@ -19,6 +19,7 @@ public class BoardDetailServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -5374675393399980710L;
 	
+	// 보드dao 사용할 수 있게 객체등록
 	private BoardDao boardDao = new BoardDao();
 
 	@Override
@@ -41,7 +42,8 @@ public class BoardDetailServlet extends HttpServlet {
 				dispatcher.forward(req, resp);			
 				return;		
 			}
-			req.setAttribute("board", board);
+			// 현재 request요청(req)에 board 데이터를 board key로 저장 // "board" 키값or네임이라고도함. ("board", board);의 board는 밸류 
+			req.setAttribute("board", board); // setAttribute(키or네임,밸류)
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();
 			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/common/message.jsp");
