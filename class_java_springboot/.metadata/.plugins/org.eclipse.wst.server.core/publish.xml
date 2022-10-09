@@ -4,4 +4,6 @@
   <server id="java-web-03-spring2x" path="publish3.dat"/>
   <server id="java-web-02-jsp" path="publish2.dat"/>
   <server id="java-web-01-jsp" path="publish1.dat"/>
+  <server id="java-web-04-spring25" path="publish4.dat"/>
+  <server id="java-web-05-spring3" path="publish5.dat"/>
 </publish-info>
