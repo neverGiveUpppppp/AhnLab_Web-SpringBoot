@@ -122,6 +122,8 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	
 	<build>
 		<finalName>java-web-03-spring2x</finalName>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 

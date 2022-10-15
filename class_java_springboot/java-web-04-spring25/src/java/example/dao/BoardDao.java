@@ -16,17 +16,23 @@ public class BoardDao {
 	public List<Board> selectBoardList() {
 		return sqlMapClientTemplate.queryForList("selectBoardList");
 	}
-
+	
 	public Board selectBoard(int boardSeq) {
 		return (Board) sqlMapClientTemplate.queryForObject("selectBoard", boardSeq);
 	}
-
+	
+	
 	public void insertBoard(Board board) {
 		sqlMapClientTemplate.insert("insertBoard", board);
 	}
-
+	
+	
 	public void deleteBoard(int boardSeq) {
 		sqlMapClientTemplate.insert("deleteBoard", boardSeq);
+	}
+
+	public void updateBoard(Board board) {
+		sqlMapClientTemplate.update("updateBoard", board);
 	}
 
 }

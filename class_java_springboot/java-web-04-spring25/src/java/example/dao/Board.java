@@ -7,6 +7,8 @@ public class Board {
 	private String title;
 	private String contents;
 	private String regDate;
+	private String userName; // 회원 이름
+	
 	
 	public String getBoardType() {
 		return boardType;
@@ -39,5 +41,12 @@ public class Board {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	
 }

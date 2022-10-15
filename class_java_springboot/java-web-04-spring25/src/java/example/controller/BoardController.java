@@ -22,7 +22,7 @@ public class BoardController {
 	private BoardService boardService;
 
 	/**
-	 * 게시물 목록 화면
+     * 게시물 목록 조회 및 화면
 	 * @param model
 	 * @return
 	 */

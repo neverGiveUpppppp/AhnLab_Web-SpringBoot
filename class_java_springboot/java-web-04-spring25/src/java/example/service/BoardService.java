@@ -12,10 +12,14 @@ import example.mapper.BoardMapper;
 public class BoardService {
 	
 	@Autowired
-	private BoardMapper boardMapper;
-
+	private BoardDao boardDao;
+	
+	/**
+	 * 게시물 목록 조회 후 리턴
+	 * @return
+	 */
 	public List<Board> selectBoardList() {
-		return boardMapper.selectBoardList();
+		return boardDao.selectBoardList();
 	}
 
 }

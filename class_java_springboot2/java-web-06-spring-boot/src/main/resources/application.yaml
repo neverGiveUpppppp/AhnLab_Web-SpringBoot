@@ -1,0 +1,21 @@
+server:
+  port: 9090
+
+
+spring:
+  # 여기서 스페이스공백 쓰면 에러나고 tab키 눌러야함
+  # DataBase 연결정보 set
+
+  datasource:
+    username: root
+    password: 1234
+    url: jdbc:mariadb://localhost:3307/profile
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  # ViewTemplate thymeleaf 설정 set
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: false
+
+
