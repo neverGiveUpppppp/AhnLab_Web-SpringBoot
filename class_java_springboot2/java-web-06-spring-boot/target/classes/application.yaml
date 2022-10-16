@@ -1,0 +1,27 @@
+server:
+  port: 9091
+  
+spring:
+  # 데이터베이스 접속정보 설정
+  datasource:
+    username: root
+    password: 1234
+    url: jdbc:mariadb://localhost:3307/profile
+    driver-class-name: org.mariadb.jdbc.Driver
+    
+  # 타임리프 설정
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: false
+  
+   
+
+mybatis:
+  mapper-locations:
+  - classpath:config/mapper/**.xml # 해당경로의 매퍼를 모든 대상을 ㅗ하곘다
+  configuration:
+    map-underscore-to-camel-case: true # 디폴트는 false true를 줬기 때문에 데이터...
+   
+   
+   
