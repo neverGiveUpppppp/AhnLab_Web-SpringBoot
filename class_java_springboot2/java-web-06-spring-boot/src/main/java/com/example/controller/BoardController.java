@@ -8,11 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.example.controller.form.BoardSaveForm;
 import com.example.mapper.Board;
 import com.example.service.BoardService;
 
@@ -45,6 +51,23 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시물 상세 화면
+	 * @param model
+	 * @return
+	 */
+	
+	@GetMapping("/{boardSeq}")
+//	public String detail(Model model, @PathVariable(name = "boardSeq") int boardSeq) { // 스프링에서 requried를 true로 기본값으로 준다고함
+	public String detail(Model model, @PathVariable int boardSeq) { // 스프링에서 requried를 true로 기본값으로 준다고함
+		// 게시물 조회
+		Board board = boardService.selectBoard(boardSeq);
+		Assert.notNull(board, "게시글 정보 없습니다");
+		// detail.html에서 board를 사용하기 위해 model에 넣는다
+		model.addAttribute("board", board);
+		return "/board/detail";
+	}
+	
+	/**
 	 * 게시물 등록 화면
 	 * @param model
 	 * @return
@@ -57,8 +80,26 @@ public class BoardController {
 	}
 	
 	
-
-
+	/**
+	 * 게시물 수정 화면
+	 * @param model
+	 * @param boardSeq
+	 * @return 
+	 */
+	
+	@GetMapping("/edit/{boardSeq}")
+	public String edit(Model model, @PathVariable(required = true)int boardSeq){ // 여기 required도 디폴트가 true라 생략가능
+		logger.debug("edit");
+		
+		// 데이터 조회
+		Board board = boardService.selectBoard(boardSeq);
+		Assert.notNull(board, "게시글 정보가 없습니다.");
+		model.addAttribute("board", board);
+		//jsp 호출
+		return "/board/form";
+		
+	}
+	
 	
 	/**
 	 * 등록 / 업데이트 처리
@@ -73,8 +114,8 @@ public class BoardController {
 	 * @return
 	 */
 	
-	@PostMapping("/save")
-	public String save(Board board) {
+//	@PostMapping("/save")
+//	public String save(Board board) {
 //		Board board = new Board();
 //		board.setBoardType(boardType);
 //		board.setTitle(title);
@@ -94,24 +135,46 @@ public class BoardController {
 		
 		
 		
+//		// 유효성 체크
+//		Assert.hasLength(board.getUserName(),"회원 이름을 입력해주세요.");
+//		Assert.hasLength(board.getTitle(), "제목을 입력해주세요.");
+//		Assert.hasLength(board.getBoardType(), "종류를 입력해주세요.");
+//		Assert.hasLength(board.getContents(), "내용을 입력해주세요.");
+//		Board selectBoard = null;
+//	// 등록이 아닌 수정화면에서 요청인 경우
+//	if(board.getBoardSeq() > 0) {
+//		// 기존에 등록된 데이터인지 조회
+//		selectBoard = boardService.selectBoard(board.getBoardSeq());
+//	}
+//	// 수정인 경우 업데이트
+//	if(selectBoard != null) {
+//		boardService.updateBoard(board);
+//	}else {
+//		//게시물 등록 처리
+//		boardService.insertBoard(board);
+//	}
+//	
+//	// 목록 화면으로 이동(URL 리다이렉트)
+//	return "redirect:/board";
+//}		
+		
+	@PostMapping("/save")
+	public String save(@Validated BoardSaveForm form) {
+			
 		// 유효성 체크
-		Assert.hasLength(board.getUserName(),"회원 이름을 입력해주세요.");
-		Assert.hasLength(board.getTitle(), "제목을 입력해주세요.");
-		Assert.hasLength(board.getBoardType(), "종류를 입력해주세요.");
-		Assert.hasLength(board.getContents(), "내용을 입력해주세요.");
 		Board selectBoard = null;
 		
 		// 등록이 아닌 수정화면에서 요청인 경우
-		if(board.getBoardSeq() > 0) {
+		if(form.getBoardSeq() > 0) {
 			// 기존에 등록된 데이터인지 조회
-			selectBoard = boardService.selectBoard(board.getBoardSeq());
+			selectBoard = boardService.selectBoard(form.getBoardSeq());
 		}
 		// 수정인 경우 업데이트
 		if(selectBoard != null) {
-			boardService.updateBoard(board);
+			boardService.updateBoard(form);
 		}else {
 			//게시물 등록 처리
-			boardService.insertBoard(board);
+			boardService.insertBoard(form);
 		}
 		
 		// 목록 화면으로 이동(URL 리다이렉트)
@@ -119,15 +182,45 @@ public class BoardController {
 	}
 	
 	
+	/**
+	 * 게시글 삭제 처리
+	 * @param model
+	 * @param boardSeq
+	 * @return
+	 */
 	@PostMapping("/delete")
-	public HttpEntity<Boolean> delete(@RequestParam(required = true) int boardSeq){
+	@ResponseBody // json타입으로 서버가 받을 수 있게(?)
+//	public HttpEntity<Boolean> delete(@RequestParam(required = true) int boardSeq){ // 여기 required도 디폴트가 true라 생략가능
+	public HttpEntity<Boolean> delete(@RequestParam int boardSeq){ // 여기 required도 디폴트가 true라 생략가능
 		logger.debug("delete");
 		
+		// 데이터 조회
 		Board board = boardService.selectBoard(boardSeq);
+		// board가 null일 경우 에러 메세지 출력
 		Assert.notNull(board, "게시글 정보가 없습니다.");
 		//삭제 처리
 		boardService.deleteBoard(boardSeq);
 		return new ResponseEntity<Boolean>(HttpStatus.OK);
+		
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Exception 발생에 대한 예외처리
+	 * controller advice에서 예외메세지 출력 전 컨트롤러에서 발생시켜보기(컨트롤러 안에있는게 우선순위)
+	 * @param e
+	 * @return
+	 */
+	//@ExceptionHandler(Exception.class) // 유저에게 원하는 에러만 보여주기 위해 BindException 사용했는데 우선순위가 컨트롤러가 먼저라 주석처리함
+	public ModelAndView handleException(Exception e) {
+		logger.error("BoardController handleException",e);
+		ModelAndView view = new ModelAndView("error/error.html");
+		view.addObject("exception",e);
+		return view;
 		
 	}
 	

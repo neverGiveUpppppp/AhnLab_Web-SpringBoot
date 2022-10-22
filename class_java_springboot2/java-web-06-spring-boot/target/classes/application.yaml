@@ -19,7 +19,7 @@ spring:
 
 mybatis:
   mapper-locations:
-  - classpath:config/mapper/**.xml # 해당경로의 매퍼를 모든 대상을 ㅗ하곘다
+  - classpath:config/mapper/**.xml # 해당경로의 매퍼를 모든 대상으로 하겠다
   configuration:
     map-underscore-to-camel-case: true # 디폴트는 false true를 줬기 때문에 데이터...
    

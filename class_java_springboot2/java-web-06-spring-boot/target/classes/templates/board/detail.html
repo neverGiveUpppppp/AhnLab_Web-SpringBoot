@@ -11,19 +11,39 @@
 		<div class="card" style="width: 18rem;">
 		  <img src="..." class="card-img-top" alt="...">
 		  <div class="card-body">
-		    <h5 class="card-title">${board.title}</h5>
-		    <p class="card-text">${board.contents}</p>
-		    <a href="javascript:;" class="btn btn-primary">${board.regDate}</a>
+		    <h5 class="card-title">[[${board.title}]]</h5>
+		    <h5 class="card-title">회원이름 : [[${board.userName}]]</h5>
+		    <p class="card-text">[[${board.contents}]]</p>
+		    <a href="javascript:;" class="btn btn-primary">[[${board.regDate}]]</a>
 		  </div>
 		</div>		
-		<a href="/board/list" class="btn btn-primary mt-5">목록</a>
-		<a href="/board/form?boardSeq=${board.boardSeq}" class="btn btn-primary mt-5">수정</a>
-		<a href="javascript:handleDelete('/board/delete?boardSeq=${board.boardSeq}');" class="btn btn-primary mt-5">삭제</a>
+		<a href="/board" class="btn btn-primary mt-5">목록</a>
+		<a th:href="@{/board/edit/{boardSeq}(boardSeq=${board.boardSeq})}" class="btn btn-primary mt-5">수정</a>
+		<a href="javascript:handleDelete();" class="btn btn-primary mt-5">삭제</a>
 	</div>
-	<script>
+	
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	<script th:inline="javascript">
+	var boardSeq = [[${board.boardSeq}]];
 	function handleDelete(url) {
 		if (confirm('정말 삭제하시겠습니까?')) {
-			location.href = url;
+			$.ajax({
+				url: '/board/delete',
+				type: 'post',
+				// 파라메터
+				data: {
+					boardSeq: boardSeq
+				},
+				// 성공콜백
+				success: function(data) {
+					alert('게시글이 삭제되었습니다.');
+					location.href = '/board';
+				},
+				error: function() {
+					alert('게시글 삭제가 실패하였습니다.');
+				}
+			});
+
 		}
 	}
 	</script>
