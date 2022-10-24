@@ -9,10 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -79,6 +79,19 @@ public class BoardController {
 		return "/board/form";
 	}
 	
+	/**
+	 * 게시물 등록 화면
+	 * 바디에 넣어서 보내는 방식. 위에꺼는 기존 방식
+	 * @param model
+	 * @return
+	 */
+	
+	@GetMapping("/form-body")
+	public String formBody(Model model) {
+		// jsp를 호출
+		return "/board/form-body";
+	}
+	
 	
 	/**
 	 * 게시물 수정 화면
@@ -109,7 +122,7 @@ public class BoardController {
 	
 	
 	/**
-	 * 게시물 등록/저장 요철 처리
+	 * 게시물 등록/저장 요청 처리
 	 * @param model
 	 * @return
 	 */
@@ -157,9 +170,9 @@ public class BoardController {
 //	// 목록 화면으로 이동(URL 리다이렉트)
 //	return "redirect:/board";
 //}		
-		
+
 	@PostMapping("/save")
-	public String save(@Validated BoardSaveForm form) {
+	public String save(@Validated  BoardSaveForm form) { 
 			
 		// 유효성 체크
 		Board selectBoard = null;
@@ -179,6 +192,38 @@ public class BoardController {
 		
 		// 목록 화면으로 이동(URL 리다이렉트)
 		return "redirect:/board";
+	}
+	
+	
+	/**
+	 * 게시물 등록/저장 요청 처리(클라이언트 바디에 json으로 받기)
+	 * @param model
+	 * @return
+	 */
+	@PostMapping("/save-body")
+	@ResponseBody
+	public HttpEntity<Integer> saveBody(@Validated @RequestBody BoardSaveForm form) { // 인티저 넣는 이유 : 성공했을 때 보드시크 받기 때문에 값을 인티저로 주기위함
+		// 리퀘스트바디를 넣어줘야 클래스 객체를 읽어줌
+			
+		// 유효성 체크
+		Board selectBoard = null;
+		
+		// 등록이 아닌 수정화면에서 요청인 경우
+		if(form.getBoardSeq() > 0) {
+			// 기존에 등록된 데이터인지 조회
+			selectBoard = boardService.selectBoard(form.getBoardSeq());
+		}
+		// 수정인 경우 업데이트
+		if(selectBoard != null) {
+			boardService.updateBoard(form);
+		}else {
+			//게시물 등록 처리
+			boardService.insertBoard(form);
+		}
+		
+		// 목록 화면으로 이동(URL 리다이렉트)
+		return new ResponseEntity<Integer>(form.getBoardSeq(), HttpStatus.OK);
+		// HttpStatus.OK가 성공시 반환값. 에러는 다른걸로 콜백됨
 	}
 	
 	
