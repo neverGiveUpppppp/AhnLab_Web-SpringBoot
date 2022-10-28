@@ -3,6 +3,7 @@ package com.example.controller;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
@@ -53,6 +54,13 @@ public class MemberController {
 		// 회원가입 정보 DB에 등록
 		memberService.insertMember(form);
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+
+		//		private final PasswordEncoder passwordEncoder;
+//		
+//		String password = passwordEncoder.encode(form.getPassword());
+//		// 암호화된 비밀번호로 저장
+//		form.setPassword(password);
+		
 	}
 
 	

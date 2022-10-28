@@ -30,5 +30,12 @@
 		)
 	</insert>
 	
+	<!-- 회원 계정 조회 -->
+	<select id="selectMemberAccount" parameterType="String" resultType="com.example.domain.Member">
+		SELECT MEMBER_SEQ, ACCOUNT, PASSWORD, NICKNAME
+		FROM T_MEMBER
+		WHERE ACCOUNT = #{account}
+	</select>
+	
 	
 </mapper>
