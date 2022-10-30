@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.controller.form.BoardSaveForm;
 import com.example.mapper.Board;
+import com.example.security.userdetails.SecurityUserDetails;
 import com.example.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -171,29 +173,57 @@ public class BoardController {
 //	return "redirect:/board";
 //}		
 
+	
+	// AOP 적용 전
+//	@PostMapping("/save")
+//	public String save(@Validated  BoardSaveForm form) { 
+//			
+//		// 유효성 체크
+//		Board selectBoard = null;
+//		
+//		// 등록이 아닌 수정화면에서 요청인 경우
+//		if(form.getBoardSeq() > 0) {
+//			// 기존에 등록된 데이터인지 조회
+//			selectBoard = boardService.selectBoard(form.getBoardSeq());
+//		}
+//		// 수정인 경우 업데이트
+//		if(selectBoard != null) {
+//			boardService.updateBoard(form);
+//		}else {
+//			//게시물 등록 처리
+//			boardService.insertBoard(form);
+//		}
+//		
+//		// 목록 화면으로 이동(URL 리다이렉트)
+//		return "redirect:/board";
+//	}
+	
+	
+	// AOP 적용 후
+	//  Authentication authentication 추가
 	@PostMapping("/save")
-	public String save(@Validated  BoardSaveForm form) { 
-			
-		// 유효성 체크
-		Board selectBoard = null;
-		
-		// 등록이 아닌 수정화면에서 요청인 경우
-		if(form.getBoardSeq() > 0) {
-			// 기존에 등록된 데이터인지 조회
-			selectBoard = boardService.selectBoard(form.getBoardSeq());
-		}
-		// 수정인 경우 업데이트
-		if(selectBoard != null) {
-			boardService.updateBoard(form);
-		}else {
-			//게시물 등록 처리
-			boardService.insertBoard(form);
-		}
-		
-		// 목록 화면으로 이동(URL 리다이렉트)
-		return "redirect:/board";
+	public void save(BoardSaveForm form, Authentication authentication) { // Authentication 임포트는 시큐리티 코어
+		SecurityUserDetails details = (SecurityUserDetails) 
+			authentication.getPrincipal();
+		Board board = new Board();
+		board.setBoardSeq(form.getBoardSeq());	
+		board.setBoardType(form.getBoardType());
+		board.setTitle(form.getTitle());
+		board.setContents(form.getContents());
+		board.setUserName(details.getNickname());
+		board.setMemberSeq(details.getMemberSeq());
+		boardMapper.insertBoard(board);
 	}
 	
+	public void update(BoardSaveForm form) {
+		Board board = new Board();
+		board.setBoardSeq(form.getBoardSeq());	
+		board.setBoardType(form.getBoardType());
+		board.setTitle(form.getTitle());
+		board.setContents(form.getContents());
+		boardMapper.updateBoard(board);
+	}
+
 	
 	/**
 	 * 게시물 등록/저장 요청 처리(클라이언트 바디에 json으로 받기)

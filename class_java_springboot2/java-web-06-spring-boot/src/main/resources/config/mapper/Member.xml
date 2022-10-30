@@ -19,6 +19,8 @@
 			ACCOUNT,
 			PASSWORD,
 			NICKNAME,
+			PROFILE_IMAGE_PATH,
+			PROFILE_IMAGE_NAME,
 			JOIN_DATE
 		)
 		VALUES
@@ -26,6 +28,8 @@
 			#{account},
 			#{password},
 			#{nickname},
+			#{profileImagePath},
+			#{profileImageName},
 			NOW()
 		)
 	</insert>

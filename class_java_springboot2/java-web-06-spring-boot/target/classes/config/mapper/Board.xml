@@ -30,6 +30,7 @@
 			TITLE,
 			CONTENTS,
 			USER_NAME,
+			MEMBER_SEQ,
 			REG_DATE		
 		)
 		VALUES
@@ -38,6 +39,7 @@
 			#{title},
 			#{contents},
 			#{userName},
+			#{memberSeq},
 			NOW()	
 		)
 	</insert>

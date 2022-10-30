@@ -15,6 +15,13 @@ spring:
     suffix: .html
     cache: false
   
+  servlet:
+     multipart:
+       enabled: true
+       max-file-size: 50MB
+       location: /fileupload
+       max-request-size: 50MB
+  
    
 
 mybatis:
@@ -23,5 +30,8 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true # 디폴트는 false true를 줬기 때문에 데이터...
    
+# 파일 환경설정 정보
+file:
+  root-path: /fileupload
    
    
