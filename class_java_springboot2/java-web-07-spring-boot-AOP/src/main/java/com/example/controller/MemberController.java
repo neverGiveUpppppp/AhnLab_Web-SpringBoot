@@ -1,18 +1,20 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.annotation.RequestConfig;
 import com.example.controller.form.MemberSaveForm;
 import com.example.service.MemberService;
 
@@ -32,6 +34,7 @@ public class MemberController {
 	 * @return
 	 */
 	@GetMapping("/form")
+	@RequestConfig(menu = "MEMBER") // 멤버 대문자
 	public String form() {
 		return "/member/form";
 	}
@@ -63,13 +66,26 @@ public class MemberController {
 		
 	}
 
-	
+	/**
+	 * 본인인증 콜백이 오는경우 처리
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/realname/callback")
+	@RequestConfig(menu = "MEMBER")
+	public HttpEntity<?> realnameCallback(Model model, HttpServletRequest request) {
+		// 실제 기능구현에는 요청이온 파라메터 값을 체크해서 성공여부를 해야함
+		request.getSession().setAttribute("realnameCheck", true);
+		return ResponseEntity.ok().build();
+	}
+
 	
 	/**
 	 * 가입완료 화면
 	 * @return
 	 */
 	@GetMapping("/join-complete")
+	@RequestConfig(menu = "MEMBER", realname= true) // 멤버 대문자
 	public String joinComplete() {
 		return "/member/join-complete";
 	}

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.annotation.RequestConfig;
 import com.example.security.userdetails.SecurityUserDetails;
 
 @Controller
@@ -22,6 +23,7 @@ public class HomeController {
 	
 	// Spring Security 적용 후
 	@GetMapping(value = { "/", "/home" })
+	@RequestConfig(menu = "HOME")
 	public String home(Model model, Authentication authentication) {
 		logger.info("authentication : {}", authentication);
 		SecurityUserDetails details = (SecurityUserDetails) authentication.getPrincipal();

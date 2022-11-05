@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.annotation.RequestConfig;
 import com.example.controller.form.BoardSaveForm;
 import com.example.mapper.Board;
-import com.example.security.userdetails.SecurityUserDetails;
 import com.example.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -44,6 +44,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping
+	@RequestConfig(menu = "BOARD")
 	public String list(Model model) {
 		logger.debug("boardList...");
 		// 게시물 목록 조회 후 model에 boardList key로 저장
@@ -59,6 +60,7 @@ public class BoardController {
 	 */
 	
 	@GetMapping("/{boardSeq}")
+	@RequestConfig(menu = "BOARD")
 //	public String detail(Model model, @PathVariable(name = "boardSeq") int boardSeq) { // 스프링에서 requried를 true로 기본값으로 준다고함
 	public String detail(Model model, @PathVariable int boardSeq) { // 스프링에서 requried를 true로 기본값으로 준다고함
 		// 게시물 조회
@@ -76,6 +78,7 @@ public class BoardController {
 	 */
 
 	@GetMapping("/form")
+	@RequestConfig(menu = "BOARD")
 	public String form(Model model) {
 		// jsp를 호출
 		return "/board/form";
@@ -89,6 +92,7 @@ public class BoardController {
 	 */
 	
 	@GetMapping("/form-body")
+	@RequestConfig(menu = "BOARD")
 	public String formBody(Model model) {
 		// jsp를 호출
 		return "/board/form-body";
@@ -116,6 +120,7 @@ public class BoardController {
 	
 	// AOP 적용 후
 	@GetMapping("/edit/{boardSeq}")
+	@RequestConfig(menu = "BOARD")
 	public String edit(Model model, @PathVariable int boardSeq) {
 		model.addAttribute("board", boardService.selectBoard(boardSeq));
 		return "/board/form";
@@ -279,6 +284,7 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/save")
+	@RequestConfig(menu = "BOARD")
 	public String save(@Validated BoardSaveForm form, Authentication authentication) {
 		boardService.save(form, authentication);
 		// 목록 화면으로 이동
@@ -292,6 +298,7 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/update")
+	@RequestConfig(menu = "BOARD")
 	public String update(@Validated BoardSaveForm form) {
 		boardService.update(form);
 		// 상세화면으로 이동
@@ -306,6 +313,7 @@ public class BoardController {
 	 */
 	@PostMapping("/save-body")
 	@ResponseBody
+	@RequestConfig(menu = "BOARD")
 	public HttpEntity<Integer> saveBody(@Validated @RequestBody BoardSaveForm form,
 			Authentication auth) { // 인티저 넣는 이유 : 성공했을 때 보드시크 받기 때문에 값을 인티저로 주기위함
 		// 리퀘스트바디를 넣어줘야 클래스 객체를 읽어줌
@@ -341,6 +349,7 @@ public class BoardController {
 	 */
 	@PostMapping("/delete")
 	@ResponseBody // json타입으로 서버가 받을 수 있게(?)
+	@RequestConfig(menu = "BOARD")
 //	public HttpEntity<Boolean> delete(@RequestParam(required = true) int boardSeq){ // 여기 required도 디폴트가 true라 생략가능
 	public HttpEntity<Boolean> delete(@RequestParam int boardSeq){ // 여기 required도 디폴트가 true라 생략가능
 		logger.debug("delete");
