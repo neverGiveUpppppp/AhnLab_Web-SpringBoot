@@ -15,13 +15,23 @@ spring:
     suffix: .html
     cache: false
   
+  servlet:
+     multipart:
+       enabled: true
+       max-file-size: 50MB
+       location: /fileupload
+       max-request-size: 50MB
+  
    
 
 mybatis:
   mapper-locations:
-  - classpath:config/mapper/**.xml # 해당경로의 매퍼를 모든 대상을 ㅗ하곘다
+  - classpath:config/mapper/**.xml # 해당경로의 매퍼를 모든 대상으로 하겠다
   configuration:
     map-underscore-to-camel-case: true # 디폴트는 false true를 줬기 때문에 데이터...
    
+# 파일 환경설정 정보
+file:
+  root-path: /fileupload
    
    

@@ -1,0 +1,8 @@
+com\example\domain\BoardType.class
+com\example\validation\NotEmptyFile.class
+com\example\advice\ExampleControllerAdvice.class
+com\example\aspect\BoardAspect.class
+com\example\mapper\MemberMapper.class
+com\example\domain\Member.class
+com\example\configuration\WebSecurityConfiguration.class
+com\example\exception\DefaultException.class
